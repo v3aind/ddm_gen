@@ -1,16 +1,7 @@
-import pandas as pd
 import streamlit as st
-from io import BytesIO
+import pandas as pd
 
-# Streamlit UI for the app
-st.title("Excel File Generator for Roaming Data")
-st.markdown("Upload the input files and generate the required Excel outputs.")
-
-# Upload files
-file1 = st.file_uploader("Upload Roaming_SC_Completion.xlsx", type=["xlsx"])
-file2 = st.file_uploader("Upload Product Spec Roaming.xlsx", type=["xlsx"])
-
-if file1 and file2:
+def process_files(file1, file2):
     try:
         # Load files into dataframes
         file1_df = pd.read_excel(file1)
@@ -243,6 +234,7 @@ if file1 and file2:
                     rules_price_df = pd.DataFrame(rules_price_data)
                     rules_price_df.to_excel(writer, sheet_name="Rules-Price", index=False)
 
+
                 st.success(f"Output file '{output_file_name}' created successfully for keyword: {keyword}")
                 # Provide download button
                 st.download_button(
@@ -256,3 +248,10 @@ if file1 and file2:
 
     except Exception as e:
         st.error(f"An error occurred: {e}")
+
+# Streamlit UI
+st.title("Roaming Data Processor")
+
+# File upload widgets
+file1 = st.file_uploader("Upload 'Roaming_SC_Completion.xlsx'", type=['xlsx'])
+file2 = st.file_uploader("Upload 'Product Spec Roaming.xlsx'", type=['xlsx'])
