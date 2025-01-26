@@ -313,6 +313,54 @@ def process_files(file1, file2):
                         case_type_df = pd.DataFrame(case_type_data)
                         case_type_df.to_excel(writer, sheet_name="Case-Type", index=False)
 
+                        # Create the "Offer-DA" sheet
+                        headers = ["Parentpoid", "Offerid", "daid", "Benefit Name", "Value", "Zone"]
+                        offer_da_data = []  # Initialize as an empty list to store rows
+
+                        def safe_int(value, default=0):
+                            """Convert a value to an integer, returning a default value if conversion fails."""
+                            try:
+                                # Strip whitespace and convert to integer
+                                return int(str(value).strip())
+                            except (ValueError, TypeError):
+                                return default
+
+                        # Check and add data if quota > 0
+                        if safe_int(row.get("Quota", 0)) > 0:
+                            offer_da_data.append({
+                                "Parentpoid": po_id_from_file1,
+                                "Offerid": "",  # Empty string for Offerid
+                                "daid": "30100",  # Fixed string "30100"
+                                "Benefit Name": "DataRoaming",  # Fixed string "DataRoaming"
+                                "Value": safe_int(row["Quota"]) * 1073741824,  # quota * 1 GB in bytes
+                                "Zone": "NA",  # Empty string for Zone
+                            })
+
+                        # Check and add data if Voice > 0
+                        if safe_int(row.get("Voice", 0)) > 0:
+                            poid_parts = po_id_from_file1.split("_")  # Split POID by "_"
+                            if len(poid_parts) >= 5:  # Ensure there are enough parts
+                                package_validity = str(row.get("Package Validity", "")).strip()
+                                parentpoid = "PO_ADO_CALLBACKHOME_" + poid_parts[4] + "_" + package_validity + "D"
+                                offer_da_data.append({
+                                    "Parentpoid": parentpoid,
+                                    "Offerid": "",  # Empty string for Offerid
+                                    "daid": "30194",  # Assuming a different daid for Voice
+                                    "Benefit Name": "VoiceRoamingCallBackHome",  # Fixed string "VoiceRoaming"
+                                    "Value": safe_int(row["Voice"]) * 60,  # Voice value times 60 in seconds
+                                    "Zone": "NA",  # Empty string for Zone
+                                })
+
+                        # Create DataFrame
+                        if offer_da_data:  # Only create DataFrame if there's data
+                            offer_da_df = pd.DataFrame(offer_da_data)
+                        else:  # If no data, create an empty DataFrame with the headers
+                            offer_da_df = pd.DataFrame(columns=headers)
+
+                        # Write to Excel
+                        offer_da_df.to_excel(writer, sheet_name="Offer-DA", index=False)
+ 
+
                     # Move the file pointer to the beginning of the file so it can be downloaded
                     output.seek(0)
 
