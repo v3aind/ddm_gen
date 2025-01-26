@@ -251,4 +251,12 @@ file2 = st.file_uploader("Upload 'Product Spec Roaming.xlsx'", type=['xlsx'])
 
 if file1 and file2:
     if st.button("Process Files"):
-        process_files(file1, file2)
+        output_files = process_files(file1, file2)
+        if output_files:
+            for file_name, file_data in output_files.items():
+                st.download_button(
+                    label=f"Download {file_name}",
+                    data=file_data,
+                    file_name=file_name,
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
