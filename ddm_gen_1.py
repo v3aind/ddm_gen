@@ -359,7 +359,153 @@ def process_files(file1, file2):
 
                         # Write to Excel
                         offer_da_df.to_excel(writer, sheet_name="Offer-DA", index=False)
- 
+
+                        # Create the "Library AddOn_DA" sheet
+                        library_addon_headers = ["Ruleset ShortName", "Parentpoid", "Offerid", "daid", "Benefit Name", "Value", "Zone"]
+                        library_addon_da_data = []  # Initialize as an empty list to store rows
+
+                        # Define the ruleset suffixes
+                        ruleset_suffixes = ["MRPRE00", "MRACT00", "MR0000"]
+
+                        # Repeat Quota data 3 times with ruleset
+                        if safe_int(row.get("Quota", 0)) > 0:
+                            quota_value = safe_int(row["Quota"]) * 1073741824  # Convert quota to bytes
+                            for suffix in ruleset_suffixes:
+                                library_addon_da_data.append({
+                                    "Ruleset ShortName": f"{po_id_from_file1}_{suffix}",  # Append ruleset suffix to POID
+                                    "Parentpoid": po_id_from_file1,
+                                    "Quota Name": "DataRoaming",  # Fixed string "DataRoaming"
+                                    "daid": "30100",  # Fixed string "30100"
+                                    "Internal Description Bahasa": "Kuota Roaming",  # Fixed string "DataRoaming"
+                                    "External Description Bahasa": "Kuota Roaming",  # Fixed string "DataRoaming"
+                                    "Internal Description English": "Roaming Quota",  # Fixed string "DataRoaming"
+                                    "External Description English": "Roaming Quota",  # Fixed string "DataRoaming"
+                                    "Visibility": "ON",
+                                    "Custom": "SHOW",
+                                    "Feature": "",
+                                    "Initial Value": quota_value,
+                                    "Unlimited Benefit Flag": "",
+                                    "Scenario": "Rebuy_Upgrade",
+                                    "Attribute Name": "DataMainQuota",
+                                    "Action": "",
+                                })
+
+                        # Repeat Voice data 3 times with ruleset
+                        if safe_int(row.get("Voice", 0)) > 0:
+                            poid_parts = po_id_from_file1.split("_")  # Split POID by "_"
+                            if len(poid_parts) >= 5:  # Ensure there are enough parts
+                                package_validity = str(row.get("Package Validity", "")).strip()
+                                parentpoid = "PO_ADO_CALLBACKHOME_" + poid_parts[4] + "_" + package_validity + "D"
+                                voice_value = safe_int(row["Voice"]) * 60  # Convert voice value to seconds
+                                for suffix in ruleset_suffixes:
+                                    library_addon_da_data.append({
+                                        "Ruleset ShortName": f"{po_id_from_file1}_{suffix}",  # Append ruleset suffix to POID
+                                        "Parentpoid": parentpoid,
+                                        "Quota Name": "VoiceRoamingCallBackHome",  # Fixed string "DataRoaming"
+                                        "daid": "30194",  # Fixed string "30100"
+                                        "Internal Description Bahasa": "Kuota Nelp ke IM3 dan TRI",  # Fixed string "DataRoaming"
+                                        "External Description Bahasa": "Kuota Nelp ke IM3 dan TRI",  # Fixed string "DataRoaming"
+                                        "Internal Description English": "Free Call",  # Fixed string "DataRoaming"
+                                        "External Description English": "Free Call",  # Fixed string "DataRoaming"
+                                        "Visibility": "ON",
+                                        "Custom": "VALUEONLY",
+                                        "Feature": "",
+                                        "Initial Value": voice_value,
+                                        "Unlimited Benefit Flag": "",
+                                        "Scenario": "Rebuy_Upgrade",
+                                        "Attribute Name": "VoiceRoamingCallBackHome",
+                                        "Action": "",
+                                    })
+
+                        # Create DataFrame
+                        if library_addon_da_data:  # Only create DataFrame if there's data
+                            library_addon_da_df = pd.DataFrame(library_addon_da_data)
+                        else:  # If no data, create an empty DataFrame with the headers
+                            library_addon_da_df = pd.DataFrame(columns=library_addon_headers)
+
+                        # Write to Excel
+                        library_addon_da_df.to_excel(writer, sheet_name="Library AddOn_DA", index=False)
+
+                        # Create empty Rules-Messages sheet
+                        rules_messages_headers = ["PO ID","Ruleset ShortName","Order Status","Order Type","Sender Address","Channel","Message Content Index","Message Content"]
+                        rules_messages_data = []  # Initialize as an empty list to store rows
+
+                       # Create DataFrame
+                        if rules_messages_data:  # Only create DataFrame if there's data
+                            rules_messages_df = pd.DataFrame(rules_messages_data)
+                        else:  # If no data, create an empty DataFrame with the headers
+                            rules_messages_df = pd.DataFrame(columns=rules_messages_headers)
+
+                        # Write to Excel
+                        rules_messages_df.to_excel(writer, sheet_name="Rules-Messages", index=False)
+
+                        # Create StandAlone sheet
+                        standalone_data= {
+                            "Ruleset ShortName": [
+                                f"{po_id_from_file1}:MRPRE00",
+                                f"{po_id_from_file1}:MRPRE00",
+                                f"{po_id_from_file1}:MRACT00",
+                                f"{po_id_from_file1}:MRACT00",
+                                f"{po_id_from_file1}:MR0000",
+                                f"{po_id_from_file1}:MR0000"
+                            ],
+                            "PO ID": [po_id_from_file1] * 6,
+                            "Scenarios": [
+                                "AddonActivation|AddonGiftActivation|AddonGiftRebuy|AddonRebuy",
+                                "AddonUnregistration",
+                                "AddonActivation|AddonGiftActivation|AddonGiftRebuy|AddonRebuy",
+                                "AddonUnregistration",
+                                "AddonActivation|AddonGiftActivation|AddonGiftRebuy|AddonRebuy",
+                                "AddonUnregistration"
+                            ],
+                            "Type": ["DA"] * 6,
+                            "ID": [str(file1_df.loc[file1_df['Keyword'] == keyword, 'DA Standalone'].iloc[0]) if not file1_df.loc[file1_df['Keyword'] == keyword, 'DA Standalone'].empty else ""] * 6,
+                            "Value": [str(i) for i in [1, 0, 0, 0, 0, 0]],  # Produces ["1", "0", "0", "0", "0", "0"]
+                            "UOM": [str(i) for i in [1, 1, 1, 1, 1, 1]],
+                            "Validity": [
+                                str(row["Dorman"]),
+                                "NO_EXPIRY",
+                                str(row["Package Validity"]),
+                                "NO_EXPIRY",
+                                str(row["Package Validity"]),
+                                "NO_EXPIRY"
+                            ],
+                            "Provision Payload Value": [""] * 6,
+                            "Payload Dependent Attribute": [""] * 6,
+                            "ACTION": ["SET"] * 6
+                        }
+
+                        standalone_df=pd.DataFrame(standalone_data)
+                        standalone_df.to_excel(writer, sheet_name="StandAlone", index=False)
+
+                        # Create Rebuy Association sheet - empty need to populate for each country after MR ID fixed
+                        rebuy_association_headers= ["Target PO ID","Target Ruleset ShortName","Target MPP","Target Group","Service Type","Rebuy Price","Allow Rebuy","Rebuy Option","Product Family","Source PO ID","Source Ruleset ShortName","Source MPP","Source Group","Vice Versa Consent","Status"]
+                        rebuy_association_data = []  # Initialize as an empty list to store rows
+
+                       # Create DataFrame
+                        if rebuy_association_data:  # Only create DataFrame if there's data
+                            rebuy_association_df = pd.DataFrame(rebuy_association_data)
+                        else:  # If no data, create an empty DataFrame with the headers
+                            rebuy_association_df = pd.DataFrame(columns=rebuy_association_headers)
+
+                        # Write to Excel
+                        rebuy_association_df.to_excel(writer, sheet_name="Rebuy Association", index=False)
+
+                        # Create UMB Push Category sheet
+                        umb_push_category_data= {
+                            "POID": [po_id_from_file1] * 3,
+                            "MRID": [
+                                f"{po_id_from_file1}:MRPRE00",
+                                f"{po_id_from_file1}:MRACT00",
+                                f"{po_id_from_file1}:MR0000"
+                            ],
+                            "GROUP_CATEGORY": ["Pkt Internet"] * 3,
+                            "SHORTCODE": [str("122")] * 3,
+                            "SHOWUNIT": ["SHOW"] * 3
+                        }
+
+                        umb_push_category_df=pd.DataFrame(umb_push_category_data)
+                        umb_push_category_df.to_excel(writer, sheet_name="UMB Push Category", index=False)
 
                     # Move the file pointer to the beginning of the file so it can be downloaded
                     output.seek(0)
