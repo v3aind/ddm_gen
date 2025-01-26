@@ -267,7 +267,7 @@ def process_files(file1, file2):
 
                     # Provide a download button for the user
                     st.download_button(
-                        label="Download Output File",
+                        label=f"Download {output_file_name}",
                         data=output,
                         file_name=output_file_name,
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
