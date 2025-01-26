@@ -1,7 +1,16 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
+from io import BytesIO
 
-def process_files(file1, file2):
+# Streamlit UI for the app
+st.title("Excel File Generator for Roaming Data")
+st.markdown("Upload the input files and generate the required Excel outputs.")
+
+# Upload files
+file1 = st.file_uploader("Upload Roaming_SC_Completion.xlsx", type=["xlsx"])
+file2 = st.file_uploader("Upload Product Spec Roaming.xlsx", type=["xlsx"])
+
+if file1 and file2:
     try:
         # Load files into dataframes
         file1_df = pd.read_excel(file1)
@@ -234,29 +243,16 @@ def process_files(file1, file2):
                     rules_price_df = pd.DataFrame(rules_price_data)
                     rules_price_df.to_excel(writer, sheet_name="Rules-Price", index=False)
 
-
                 st.success(f"Output file '{output_file_name}' created successfully for keyword: {keyword}")
+                # Provide download button
+                st.download_button(
+                    label=f"Download {output_file_name}",
+                    data=output.getvalue(),
+                    file_name=output_file_name,
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
             else:
                 st.warning(f"No matching POID found for keyword: {keyword}")
 
     except Exception as e:
         st.error(f"An error occurred: {e}")
-
-# Streamlit UI
-st.title("Roaming Data Processor")
-
-# File upload widgets
-file1 = st.file_uploader("Upload 'Roaming_SC_Completion.xlsx'", type=['xlsx'])
-file2 = st.file_uploader("Upload 'Product Spec Roaming.xlsx'", type=['xlsx'])
-
-if file1 and file2:
-    if st.button("Process Files"):
-        output_files = process_files(file1, file2)
-        if output_files:
-            for file_name, file_data in output_files.items():
-                st.download_button(
-                    label=f"Download {file_name}",
-                    data=file_data,
-                    file_name=file_name,
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
