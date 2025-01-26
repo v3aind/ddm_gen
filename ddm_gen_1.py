@@ -105,122 +105,123 @@ def process_files(file1, file2):
                     ruleset_header_df = pd.DataFrame(ruleset_header_data)
                     ruleset_header_df.to_excel(writer, sheet_name="Ruleset-Header", index=False)
 
-					# Create DDM-Rule
-					ddm_rule_data ={
-						"Keyword": [row["Keywords"],row["Keywords"], "AKTIF_P26", "AKTIF", row["Keywords"], row["Keywords"]],
-						"Ruleset ShortName": [
-							f"{po_id_from_file1}:MRPRE00",
-							f"{po_id_from_file1}:MRPRE00",
-							f"{po_id_from_file1}:MRACT00",
-							f"{po_id_from_file1}:MRACT00",
-							f"{po_id_from_file1}:MR0000",
-							f"{po_id_from_file1}:MR0000"
-						],
-						"ACTIVE_SUBS": [""] * 6,
-						"OpIndex":[3,4,1,1,1,2],
-						"SALES_AREA": [""] * 6,
-						"ZONE": [""] * 6,
-						"ORIGIN": [
-							f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
-							f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
-							"SDP",
-							"SDP",
-							f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
-							f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}"
-						],
-						"RSC_ChildPO": [
-							"PO_ADO_DOR_AKTIF_P26", "PO_ADO_DOR_AKTIF_P26", "", "", "",""
-						],
-						"RSC_LOCATION": ["DEFAULT", "DEFAULT", "", "", "DEFAULT", "DEFAULT"],
-						"RSC_DEFAULT_SALES_AREA": [""] * 6,
-						"SUBSCRIBER_TYPE": ["PREPAID,POSTPAID"] * 6,
-						"SM_REGION": [""] * 6,
-						"RSC_MAXMPP": [""] * 6,
-						"RSC_RESERVE_BALANCE": [""] * 6,
-						"DA_204": [""] * 6,
-						"UA_165": [""] * 6,
-						"ORDERTYPE": ["REGISTRATION"] * 6,
-						"GIFT": ["FALSE","FALSE","","","FALSE","FALSE"],
-						"RSC_CommercialName": [row["Commercial Name"]] * 6,
-						"ROAMING": [
-							"",
-							"",
-							f"IN|{mcc_prefixed},{cc_prefixed},{row['MCC_hex']}",
-							f"IN|m{row['MCC']},c{row['Country Code']},{row['MCC_hex']}",
-							f"IN|{row['MCC_hex']}",
-							f"IN|{row['MCC_hex']}"
-						],
-						"ROAMINGFLAG": ["EQ|TRUE", "", "", "", "EQ|TRUE", ""],
-						"RSC_serviceKeyword": ["", "ActivateIntlRoaming", "", "", "", "ActivateIntlRoaming"],
-						"RSC_serviceName": ["", "ActivateIntlRoaming", "", "", "", "ActivateIntlRoaming"],
-						"RSC_serviceProvider": ["", "ICARE", "", "", "", "ICARE"],
-						"RSC_BYP_CONSENT_CHANNEL" : [
-							f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
-							f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
-							"",
-							"",
-							f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
-							f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}"
-						],
-						"RSC_RuleSetName": [
-							"GLOBAL_ELIG_ROAMING_PREACT1",
-							"GLOBAL_ELIG_ROAMING_PREACT1",
-							"GLOBAL_ELIG_ROAMING_PREACT2",
-							"GLOBAL_ELIG_ROAMING_PREACT2",
-							"GLOBAL_ELIG_ROAMING_NORMAL",
-							"GLOBAL_ELIG_ROAMING_NORMAL"],
-						"PREACT_SUBS": [
-							"",
-							"",
-							f"IN|{po_id_from_file1}:MRPRE00",
-							f"IN|{po_id_from_file1}:MRPRE00",
-							"",
-							""
-						]
-					}
+                    # Create DDM-Rule
+                    ddm_rule_data ={
+                        "Keyword": [row["Keywords"],row["Keywords"], "AKTIF_P26", "AKTIF", row["Keywords"], row["Keywords"]],
+                        "Ruleset ShortName": [
+                            f"{po_id_from_file1}:MRPRE00",
+                            f"{po_id_from_file1}:MRPRE00",
+                            f"{po_id_from_file1}:MRACT00",
+                            f"{po_id_from_file1}:MRACT00",
+                            f"{po_id_from_file1}:MR0000",
+                            f"{po_id_from_file1}:MR0000"
+                        ],
+                        "ACTIVE_SUBS": [""] * 6,
+                        "OpIndex":[3,4,1,1,1,2],
+                        "SALES_AREA": [""] * 6,
+                        "ZONE": [""] * 6,
+                        "ORIGIN": [
+                            f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
+                            f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
+                            "SDP",
+                            "SDP",
+                            f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
+                            f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}"
+                        ],
+                        "RSC_ChildPO": [
+                            "PO_ADO_DOR_AKTIF_P26", "PO_ADO_DOR_AKTIF_P26", "", "", "",""
+                        ],
+                        "RSC_LOCATION": ["DEFAULT", "DEFAULT", "", "", "DEFAULT", "DEFAULT"],
+                        "RSC_DEFAULT_SALES_AREA": [""] * 6,
+                        "SUBSCRIBER_TYPE": ["PREPAID,POSTPAID"] * 6,
+                        "SM_REGION": [""] * 6,
+                        "RSC_MAXMPP": [""] * 6,
+                        "RSC_RESERVE_BALANCE": [""] * 6,
+                        "DA_204": [""] * 6,
+                        "UA_165": [""] * 6,
+                        "ORDERTYPE": ["REGISTRATION"] * 6,
+                        "GIFT": ["FALSE","FALSE","","","FALSE","FALSE"],
+                        "RSC_CommercialName": [row["Commercial Name"]] * 6,
+                        "ROAMING": [
+                            "",
+                            "",
+                            f"IN|{mcc_prefixed},{cc_prefixed},{row['MCC_hex']}",
+                            f"IN|m{row['MCC']},c{row['Country Code']},{row['MCC_hex']}",
+                            f"IN|{row['MCC_hex']}",
+                            f"IN|{row['MCC_hex']}"
+                        ],
+                        "ROAMINGFLAG": ["EQ|TRUE", "", "", "", "EQ|TRUE", ""],
+                        "RSC_serviceKeyword": ["", "ActivateIntlRoaming", "", "", "", "ActivateIntlRoaming"],
+                        "RSC_serviceName": ["", "ActivateIntlRoaming", "", "", "", "ActivateIntlRoaming"],
+                        "RSC_serviceProvider": ["", "ICARE", "", "", "", "ICARE"],
+                        "RSC_BYP_CONSENT_CHANNEL" : [
+                            f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
+                            f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
+                            "",
+                            "",
+                            f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}",
+                            f"{row['Channel-SS']},{row['Channel-Trad-NonTrad']}"
+                        ],
+                        "RSC_RuleSetName": [
+                            "GLOBAL_ELIG_ROAMING_PREACT1",
+                            "GLOBAL_ELIG_ROAMING_PREACT1",
+                            "GLOBAL_ELIG_ROAMING_PREACT2",
+                            "GLOBAL_ELIG_ROAMING_PREACT2",
+                            "GLOBAL_ELIG_ROAMING_NORMAL",
+                            "GLOBAL_ELIG_ROAMING_NORMAL"],
+                        "PREACT_SUBS": [
+                            "",
+                            "",
+                            f"IN|{po_id_from_file1}:MRPRE00",
+                            f"IN|{po_id_from_file1}:MRPRE00",
+                            "",
+                            ""
+                        ]
+                    }
 
-					ddm_rule_df = pd.DataFrame(ddm_rule_data)
-					ddm_rule_df.to_excel(writer, sheet_name="DDM-Rule", index=False)
+                    ddm_rule_df = pd.DataFrame(ddm_rule_data)
+                    ddm_rule_df.to_excel(writer, sheet_name="DDM-Rule", index=False)
 
-					# Create Rules-Price
-					rules_price_data ={
-					   "Ruleset ShortName": [
-							f"{po_id_from_file1}:MRPRE00",
-							f"{po_id_from_file1}:MRPRE00",
-							f"{po_id_from_file1}:MRACT00",
-							f"{po_id_from_file1}:MRACT00",
-							f"{po_id_from_file1}:MR0000",
-							f"{po_id_from_file1}:MR0000"
-						],
-						"Variable Name": ["REGISTRATION"] * 3 + ["DORMANT"] + ["REGISTRATION"] * 2,
-						"Channel":[
-							row["Channel Free"],
-							"DEFAULT",
-							"DEFAULT",
-							f"{po_id_from_file1}:MRPRE00",
-							row["Channel Free"],
-							"DEFAULT"
-						],
-						"Price": [
-							0,
-							int(float(str(row["PricePre"]).replace(",", ""))) if pd.notna(row["PricePre"]) else 0,
-							0,
-							"",
-							0,
-							int(float(str(row["PricePre"]).replace(",", ""))) if pd.notna(row["PricePre"]) else 0,
-						],
-						"SID": [
-							"12200001178102", 
-							"12200001178102", 
-							"12200001178102", 
-							"",
-							"12200001178102", 
-							"12200001178102" 
-						]
-					}
+                    # Create Rules-Price
+                    rules_price_data ={
+                       "Ruleset ShortName": [
+                            f"{po_id_from_file1}:MRPRE00",
+                            f"{po_id_from_file1}:MRPRE00",
+                            f"{po_id_from_file1}:MRACT00",
+                            f"{po_id_from_file1}:MRACT00",
+                            f"{po_id_from_file1}:MR0000",
+                            f"{po_id_from_file1}:MR0000"
+                        ],
+                        "Variable Name": ["REGISTRATION"] * 3 + ["DORMANT"] + ["REGISTRATION"] * 2,
+                        "Channel":[
+                            row["Channel Free"],
+                            "DEFAULT",
+                            "DEFAULT",
+                            f"{po_id_from_file1}:MRPRE00",
+                            row["Channel Free"],
+                            "DEFAULT"
+                        ],
+                        "Price": [
+                            0,
+                            int(float(str(row["PricePre"]).replace(",", ""))) if pd.notna(row["PricePre"]) else 0,
+                            0,
+                            "",
+                            0,
+                            int(float(str(row["PricePre"]).replace(",", ""))) if pd.notna(row["PricePre"]) else 0,
+                        ],
+                        "SID": [
+                            "12200001178102", 
+                            "12200001178102", 
+                            "12200001178102", 
+                            "",
+                            "12200001178102", 
+                            "12200001178102" 
+                        ]
+                    }
 
-					rules_price_df = pd.DataFrame(rules_price_data)
-					rules_price_df.to_excel(writer, sheet_name="Rules-Price", index=False)
+                    rules_price_df = pd.DataFrame(rules_price_data)
+                    rules_price_df.to_excel(writer, sheet_name="Rules-Price", index=False)
+
 
                 st.success(f"Output file '{output_file_name}' created successfully for keyword: {keyword}")
             else:
