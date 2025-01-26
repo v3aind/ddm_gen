@@ -105,6 +105,18 @@ def process_files(file1, file2):
                     ruleset_header_df = pd.DataFrame(ruleset_header_data)
                     ruleset_header_df.to_excel(writer, sheet_name="Ruleset-Header", index=False)
 
+                    # Ensure MCC is treated as a string and split by commas
+                    mcc_raw = str(row['MCC'])  # Convert MCC to string
+                    mcc_values = mcc_raw.split(',')  # Split by commas
+
+                    # Add 'm' prefix to each value and strip any surrounding whitespace
+                    mcc_prefixed = ','.join([f"m{mcc.strip()}" for mcc in mcc_values])
+
+                    # Split CC values, prefix each with 'c', and join them back with commas
+                    cc_raw = str(row['Country Code'])  # Convert CC to string
+                    cc_values = str(row['Country Code']).split(',')
+                    cc_prefixed = ','.join([f"c{cc.strip()}" for cc in cc_values])
+                    
                     # Create DDM-Rule
                     ddm_rule_data ={
                         "Keyword": [row["Keywords"],row["Keywords"], "AKTIF_P26", "AKTIF", row["Keywords"], row["Keywords"]],
