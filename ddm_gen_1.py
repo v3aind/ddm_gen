@@ -32,7 +32,7 @@ def process_files(file1, file2):
 
             if not matching_rows.empty:
                 po_id_from_file1 = matching_rows.iloc[0]
-                output_file_name = f"Prodef DMP-{po_id_from_file1}.xlsx
+                output_file_name = f"Prodef DMP-{po_id_from_file1}.xlsx"
 
                 # Create a Pandas ExcelWriter
                 with io.BytesIO() as output:
