@@ -3,7 +3,7 @@ import streamlit as st
 import io
 
 # Streamlit interface for file uploads
-st.title('Excel File Processing App')
+st.title('DDM File Generator')
 
 file1 = st.file_uploader("Upload Roaming_SC_Completion.xlsx", type=["xlsx"])
 file2 = st.file_uploader("Upload Product Spec Roaming.xlsx", type=["xlsx"])
