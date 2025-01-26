@@ -262,6 +262,54 @@ def process_files(file1, file2):
                         rules_price_df = pd.DataFrame(rules_price_data)
                         rules_price_df.to_excel(writer, sheet_name="Rules-Price", index=False)
 
+                        # Create Rules-Renewal
+                        rules_renewal_data= {
+                            "Ruleset ShortName": [
+                                f"{po_id_from_file1}:MRPRE00",
+                                f"{po_id_from_file1}:MRACT00",
+                                f"{po_id_from_file1}:MR0000"
+                            ],
+                            "PO ID": [po_id_from_file1] * 3,
+                            "Flag Auto": [
+                                "NO-KEEP" if row["Renewal"] == "No" else "YES-KEEP",
+                                "NO-KEEP" if row["Renewal"] == "No" else "YES-KEEP",
+                                "NO-KEEP" if row["Renewal"] == "No" else "YES-KEEP"
+                            ],
+                            "Period": [
+                                int(row["Dorman"]),
+                                int(row["Package Validity"]),
+                                int(row["Package Validity"])
+                            ],
+                            "Period UOM": ["DAY"] * 3,
+                            "Flag Charge": ["FALSE"] * 3,
+                            "Flag Suspend": ["FALSE"] * 3,
+                            "Suspend Period": [""] *3,
+                            "Suspend UOM": [""] * 3,
+                            "Flag Option": ["FALSE"] * 3,
+                            "Max Cycle": [1] *3,
+                            "Progression Renewal": [""] * 3,
+                            "Reminder Group Id": ["GROUP18"] * 3,
+                            "Amount": [""] *3,
+                            "Reg Subaction": [str(1)] * 3,
+                            "Action Failure": ["DEFAULT"] * 3
+                        }
+
+                        rules_renewal_df= pd.DataFrame(rules_renewal_data)
+                        rules_renewal_df.to_excel(writer, sheet_name="Rules-Renewal", index=False)
+
+                        # Create Case-Type
+                        case_type_data= {
+                            "RulesetName": [
+                                f"{po_id_from_file1}:MRPRE00",
+                                f"{po_id_from_file1}:MRACT00",
+                                f"{po_id_from_file1}:MR0000"
+                            ],
+                            "Case_Type": ["REGISTRATION,UNREG"] * 3
+                        }
+
+                        case_type_df=pd.DataFrame(case_type_data)
+                        case_type_df.to_excel(writer, sheet_name="Case-Type", index=False)
+
                     # Move the file pointer to the beginning of the file so it can be downloaded
                     output.seek(0)
 
