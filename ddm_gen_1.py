@@ -75,7 +75,7 @@ def process_files(file1, file2):
                                 f"{po_id_from_file1}:MRPRE00",
                                 f"{po_id_from_file1}:MRACT00",
                                 f"{po_id_from_file1}:MRACT00",
-                                f"{po_id_from_file1}:MR0000"
+                                f"{po_id_from_file1}:MR00000"
                             ],
                             "Keyword": [row["Keywords"], "AKTIF_P26", "AKTIF", row["Keywords"]],
                             "Keyword Type": ["", "", "", ""],
@@ -92,7 +92,7 @@ def process_files(file1, file2):
                                 row["Commercial Name"]
                             ],
                             "Variant Type": ["00", "00", "00", "00"],
-                            "SubVariant Type": ["PRE00", "ACT00", "ACT00", "0000"],
+                            "SubVariant Type": ["PRE00", "ACT00", "ACT00", "00000"],
                             "SimCard Validity": [
                                 row["SIM Action"], 
                                 row["SIM Action"], 
@@ -153,8 +153,8 @@ def process_files(file1, file2):
                                 f"{po_id_from_file1}:MRPRE00",
                                 f"{po_id_from_file1}:MRACT00",
                                 f"{po_id_from_file1}:MRACT00",
-                                f"{po_id_from_file1}:MR0000",
-                                f"{po_id_from_file1}:MR0000"
+                                f"{po_id_from_file1}:MR00000",
+                                f"{po_id_from_file1}:MR00000"
                             ],
                             "ACTIVE_SUBS": [""] * 6,
                             "OpIndex":[3,4,1,1,1,2],
@@ -229,8 +229,8 @@ def process_files(file1, file2):
                                 f"{po_id_from_file1}:MRPRE00",
                                 f"{po_id_from_file1}:MRACT00",
                                 f"{po_id_from_file1}:MRACT00",
-                                f"{po_id_from_file1}:MR0000",
-                                f"{po_id_from_file1}:MR0000"
+                                f"{po_id_from_file1}:MR00000",
+                                f"{po_id_from_file1}:MR00000"
                             ],
                             "Variable Name": ["REGISTRATION"] * 3 + ["DORMANT"] + ["REGISTRATION"] * 2,
                             "Channel":[
@@ -267,7 +267,7 @@ def process_files(file1, file2):
                             "Ruleset ShortName": [
                                 f"{po_id_from_file1}:MRPRE00",
                                 f"{po_id_from_file1}:MRACT00",
-                                f"{po_id_from_file1}:MR0000"
+                                f"{po_id_from_file1}:MR00000"
                             ],
                             "PO ID": [po_id_from_file1] * 3,
                             "Flag Auto": [
@@ -301,7 +301,7 @@ def process_files(file1, file2):
                             "RulesetName": [
                                 f"{po_id_from_file1}:MRPRE00",
                                 f"{po_id_from_file1}:MRACT00",
-                                f"{po_id_from_file1}:MR0000"
+                                f"{po_id_from_file1}:MR00000"
                             ],
                             "Case_Type": [
                                 "REGISTRATION",
@@ -365,7 +365,7 @@ def process_files(file1, file2):
                         library_addon_da_data = []  # Initialize as an empty list to store rows
 
                         # Define the ruleset suffixes
-                        ruleset_suffixes = ["MRPRE00", "MRACT00", "MR0000"]
+                        ruleset_suffixes = ["MRPRE00", "MRACT00", "MR00000"]
 
                         # Repeat Quota data 3 times with ruleset
                         if safe_int(row.get("Quota", 0)) > 0:
@@ -446,8 +446,8 @@ def process_files(file1, file2):
                                 f"{po_id_from_file1}:MRPRE00",
                                 f"{po_id_from_file1}:MRACT00",
                                 f"{po_id_from_file1}:MRACT00",
-                                f"{po_id_from_file1}:MR0000",
-                                f"{po_id_from_file1}:MR0000"
+                                f"{po_id_from_file1}:MR00000",
+                                f"{po_id_from_file1}:MR00000"
                             ],
                             "PO ID": [po_id_from_file1] * 6,
                             "Scenarios": [
@@ -497,7 +497,7 @@ def process_files(file1, file2):
                             "MRID": [
                                 f"{po_id_from_file1}:MRPRE00",
                                 f"{po_id_from_file1}:MRACT00",
-                                f"{po_id_from_file1}:MR0000"
+                                f"{po_id_from_file1}:MR00000"
                             ],
                             "GROUP_CATEGORY": ["Pkt Internet"] * 3,
                             "SHORTCODE": [str("122")] * 3,
