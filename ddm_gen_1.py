@@ -518,7 +518,6 @@ def process_files(file1, file2):
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     )
 
-                st.success(f"Output file '{output_file_name}' created successfully for keyword: {keyword}")
     else:
         st.warning("Please upload both files to proceed.")
 
