@@ -519,8 +519,6 @@ def process_files(file1, file2):
                     )
 
                 st.success(f"Output file '{output_file_name}' created successfully for keyword: {keyword}")
-            else:
-                st.warning(f"No matching POID found in file1_df for keyword: {keyword}")
     else:
         st.warning("Please upload both files to proceed.")
 
